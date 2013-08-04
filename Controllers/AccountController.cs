@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using ADMINUI.Models;
+using BO.Reps;
+using BO;
 
 namespace ADMINUI.Controllers
 {
@@ -14,6 +16,8 @@ namespace ADMINUI.Controllers
 
         //
         // GET: /Account/LogOn
+
+        UsuarioRepository _Rep = new UsuarioRepository();
 
         public ActionResult LogOn()
         {
@@ -26,9 +30,13 @@ namespace ADMINUI.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
+            Usuario user = new Usuario();
+            user.UserName = model.UserName;
+            user.Password = model.Password;
+
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                if (_Rep.IsUserValid(user))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
@@ -38,7 +46,7 @@ namespace ADMINUI.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Provider");
                     }
                 }
                 else
