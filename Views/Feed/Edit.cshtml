@@ -1,0 +1,59 @@
+﻿@model BO.Feed
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Feed</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Feed1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Feed1)
+            @Html.ValidationMessageFor(model => model.Feed1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InsertedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.InsertedDate)
+            @Html.ValidationMessageFor(model => model.InsertedDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SectionsId, "Section")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("SectionsId", String.Empty)
+            @Html.ValidationMessageFor(model => model.SectionsId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ProvidersId, "Provider")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ProvidersId", String.Empty)
+            @Html.ValidationMessageFor(model => model.ProvidersId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

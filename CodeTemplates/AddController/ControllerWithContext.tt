@@ -1,0 +1,159 @@
+﻿<#@ template language="C#" HostSpecific="True" #>
+<#
+var Model = (MvcTextTemplateHost)Host;
+var routePrefix = String.Empty;
+if (!String.IsNullOrWhiteSpace(Model.AreaName)) {
+    routePrefix = "/" + Model.AreaName;
+}
+routePrefix += "/" + Model.ControllerRootName + "/";
+#>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.Objects" #>
+<#@ import namespace="System.Linq" #>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+<# if(!String.IsNullOrEmpty(Model.ModelType.Namespace)) { #>
+using <#= Model.ModelType.Namespace #>;
+using <#= Model.ModelType.Namespace #>.Reps;
+<# } #>
+<# if(!String.IsNullOrEmpty(Model.ContextType.Namespace) && Model.ContextType.Namespace != Model.ModelType.Namespace) { #>
+using <#= Model.ContextType.Namespace #>;
+<# } #>
+
+namespace <#= Model.Namespace #>
+{ 
+<#  
+    var modelName = Model.ModelType.Name; 
+    var entitySetName = Model.EntitySetName; 
+    var modelVariable = modelName.ToLower();
+    var entitySetVariable = entitySetName.ToLower();
+    var primaryKey = Model.PrimaryKeys[0];
+    var lambdaVar = modelVariable[0];
+    var isObjectContext = typeof(ObjectContext).IsAssignableFrom(Model.ContextType);
+#>
+    public class <#= Model.ControllerName #> : Controller
+    {
+
+	    
+        private <#= Model.ControllerRootName #>Repository _Rep = new <#= Model.ControllerRootName #>Repository();
+		        
+        // GET: <#= routePrefix #>
+
+        public ViewResult Index()
+        {
+			return View(_Rep.GetAll());
+        }
+
+        //
+        // GET: <#= routePrefix #>Details/5
+
+        public ViewResult Details(<#= primaryKey.ShortTypeName #> id)
+        {
+			return View(_Rep.GetById(id));
+        }
+
+        //
+        // GET: <#= routePrefix #>Create
+
+        public ActionResult Create()
+        {
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+			<#= property.TypeName.Replace("BO.","") #>Repository _Rep<#= property.TypeName.Replace("BO.","") #> = new <#= property.TypeName.Replace("BO.","") #>Repository();
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(_Rep<#= property.TypeName.Replace("BO.","") #>.GetAll(), "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>");
+<# } #>
+            return View();
+        } 
+
+        //
+        // POST: <#= routePrefix #>Create
+
+        [HttpPost]
+        public ActionResult Create(<#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid)
+            {
+				///Add object to Database
+				_Rep.Add(<#= modelVariable #>);
+					              
+                return RedirectToAction("Index");  
+            }
+
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+			<#= property.TypeName.Replace("BO.","") #>Repository _Rep<#= property.TypeName.Replace("BO.","") #> = new <#= property.TypeName.Replace("BO.","") #>Repository();
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(_Rep<#= property.TypeName.Replace("BO.","") #>.GetAll(), "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>");
+<# } #>
+
+            return View(<#= modelVariable #>);
+        }
+        
+        //
+        // GET: <#= routePrefix #>Edit/5
+ 
+        public ActionResult Edit(<#= primaryKey.ShortTypeName #> id)
+        {
+
+		    <#= modelName #> <#= modelVariable #> = _Rep.GetById(id);
+
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+			<#= property.TypeName.Replace("BO.","") #>Repository _Rep<#= property.TypeName.Replace("BO.","") #> = new <#= property.TypeName.Replace("BO.","") #>Repository();
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(_Rep<#= property.TypeName.Replace("BO.","") #>.GetAll(), "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>",<#= modelVariable #>.<#= property.ForeignKeyPropertyName #>);
+<# } #>
+
+			return View(<#= modelVariable #>);
+        }
+
+        //
+        // POST: <#= routePrefix #>Edit/5
+
+        [HttpPost]
+        public ActionResult Edit(<#= modelName #> <#= modelVariable #>)
+        {
+            if (ModelState.IsValid)
+            {
+				///Update object in Database
+				_Rep.Update(<#= modelVariable #>);
+                return RedirectToAction("Index");
+            }
+
+<# foreach (var property in Model.RelatedProperties.Values) { #>
+			<#= property.TypeName.Replace("BO.","") #>Repository _Rep<#= property.TypeName.Replace("BO.","") #> = new <#= property.TypeName.Replace("BO.","") #>Repository();
+            ViewBag.<#= property.ForeignKeyPropertyName #> = new SelectList(_Rep<#= property.TypeName.Replace("BO.","") #>.GetAll(), "<#= property.PrimaryKey #>", "<#= property.DisplayPropertyName #>");
+<# } #>
+
+            return View(<#= modelVariable #>);
+        }
+
+        //
+        // GET: <#= routePrefix #>Delete/5
+ 
+        public ActionResult Delete(<#= primaryKey.ShortTypeName #> id)
+        {
+			return View(_Rep.GetById(id));
+        }
+
+        //
+        // POST: <#= routePrefix #>Delete/5
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(<#= primaryKey.ShortTypeName #> id)
+        {            
+
+            <#= modelName #> <#= modelVariable #> = _Rep.GetById(id);
+            _Rep.Delete(<#= modelVariable #>);
+
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _Rep = null;
+            base.Dispose(disposing);
+        }
+    }
+}
