@@ -36,6 +36,8 @@ namespace ADMINUI.Controllers
 
         public ActionResult Create()
         {
+			RoleRepository _RepRole = new RoleRepository();
+            ViewBag.RoleId = new SelectList(_RepRole.GetAll(), "Id", "Nombre");
             return View();
         } 
 
@@ -53,6 +55,8 @@ namespace ADMINUI.Controllers
                 return RedirectToAction("Index");  
             }
 
+			RoleRepository _RepRole = new RoleRepository();
+            ViewBag.RoleId = new SelectList(_RepRole.GetAll(), "Id", "Nombre");
 
             return View(usuario);
         }
@@ -65,6 +69,8 @@ namespace ADMINUI.Controllers
 
 		    Usuario usuario = _Rep.GetById(id);
 
+			RoleRepository _RepRole = new RoleRepository();
+            ViewBag.RoleId = new SelectList(_RepRole.GetAll(), "Id", "Nombre",usuario.RoleId);
 
 			return View(usuario);
         }
@@ -82,6 +88,8 @@ namespace ADMINUI.Controllers
                 return RedirectToAction("Index");
             }
 
+			RoleRepository _RepRole = new RoleRepository();
+            ViewBag.RoleId = new SelectList(_RepRole.GetAll(), "Id", "Nombre");
 
             return View(usuario);
         }

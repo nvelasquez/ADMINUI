@@ -33,6 +33,11 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Tipo)
     </div>
+
+    <div class="display-label">Role</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Role.Nombre)
+    </div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |

@@ -102,14 +102,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ParameterController.cs" />
-    <Compile Include="Controllers\PermisoController.cs" />
-    <Compile Include="Controllers\ProviderController.cs" />
-    <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Controllers\SeccioneController.cs" />
-    <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -124,6 +117,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\docs.css" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
     <Content Include="Content\mycss.css" />
     <Content Include="Content\normalize.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -239,37 +234,6 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Permiso\Index.cshtml" />
-    <Content Include="Views\Permiso\Create.cshtml" />
-    <Content Include="Views\Permiso\Edit.cshtml" />
-    <Content Include="Views\Permiso\Delete.cshtml" />
-    <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\Role\Create.cshtml" />
-    <Content Include="Views\Role\Edit.cshtml" />
-    <Content Include="Views\Role\Delete.cshtml" />
-    <Content Include="Views\Seccione\Index.cshtml" />
-    <Content Include="Views\Seccione\Create.cshtml" />
-    <Content Include="Views\Seccione\Edit.cshtml" />
-    <Content Include="Views\Section\Index.cshtml" />
-    <Content Include="Views\Section\Details.cshtml" />
-    <Content Include="Views\Section\Create.cshtml" />
-    <Content Include="Views\Section\Edit.cshtml" />
-    <Content Include="Views\Section\Delete.cshtml" />
-    <Content Include="Views\Provider\Index.cshtml" />
-    <Content Include="Views\Provider\Details.cshtml" />
-    <Content Include="Views\Provider\Create.cshtml" />
-    <Content Include="Views\Provider\Edit.cshtml" />
-    <Content Include="Views\Provider\Delete.cshtml" />
-    <Content Include="Views\Feed\Index.cshtml" />
-    <Content Include="Views\Feed\Details.cshtml" />
-    <Content Include="Views\Feed\Create.cshtml" />
-    <Content Include="Views\Feed\Edit.cshtml" />
-    <Content Include="Views\Feed\Delete.cshtml" />
-    <Content Include="Views\Parameter\Index.cshtml" />
-    <Content Include="Views\Parameter\Details.cshtml" />
-    <Content Include="Views\Parameter\Create.cshtml" />
-    <Content Include="Views\Parameter\Edit.cshtml" />
-    <Content Include="Views\Parameter\Delete.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Details.cshtml" />
     <Content Include="Views\Usuario\Create.cshtml" />
@@ -283,7 +247,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TDACL\BO\BO.csproj">
+    <ProjectReference Include="..\BO\BO\BO.csproj">
       <Project>{8980d316-71bb-4914-b665-c41a5ae5f02a}</Project>
       <Name>BO</Name>
     </ProjectReference>
